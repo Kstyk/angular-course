@@ -1,0 +1,23 @@
+<div>
+  <button class="btn btn-info" (click)="onClickButton()">
+    Display details
+  </button>
+  <p *ngIf="showDetails">Secret password = tuna</p>
+  @for (log of logs; let i = $index; track log;) {
+  <div
+    [ngStyle]="{ backgroundColor: getBackgroundColor(i) }"
+    [ngClass]="{ 'white-text': i > 5 }"
+  >
+    {{ log }}
+  </div>
+  }
+  <br />
+  <!-- drugi sposób for -->
+  <div
+    *ngFor="let logItem of logs; let i = index"
+    [ngStyle]="{ backgroundColor: getBackgroundColor(i) }"
+    [ngClass]="{ 'white-text': i > 5 }"
+  >
+    {{ logItem }}
+  </div>
+</div>

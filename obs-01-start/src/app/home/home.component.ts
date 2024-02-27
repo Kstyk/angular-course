@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { Observable, Subscription, generate, interval } from 'rxjs';
+=======
+import { Observable, Subscription, interval } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+>>>>>>> 2e812cbad88f64a1925e0940416426044fbf720b
 
 @Component({
   selector: 'app-home',
