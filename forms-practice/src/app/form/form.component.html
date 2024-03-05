@@ -1,0 +1,47 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Username</span>
+    </div>
+    <input
+      type="text"
+      name="username"
+      id="username"
+      formControlName="username"
+      placeholder="Type here"
+      class="input input-bordered w-full"
+    />
+  </label>
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Select your Role</span>
+    </div>
+    <select
+      class="select select-bordered w-full max-w-xs"
+      formControlName="role"
+    >
+      <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+    </select>
+  </label>
+  <label class="form-control w-full">
+    <div class="label">
+      <span class="label-text">Advanced Level in Angular</span>
+    </div>
+
+    <div class="form-control" *ngFor="let level of angularKnowledge">
+      <label class="flex flex-row gap-x-5 mb-5">
+        <input
+          class="radio"
+          type="radio"
+          [value]="level"
+          formControlName="advanced"
+        />
+        <span class="label-text text-left">{{ level }}</span>
+      </label>
+    </div>
+  </label>
+
+  <button class="btn btn-outline btn-primary" [disabled]="!form.valid">
+    Submit
+  </button>
+</form>
