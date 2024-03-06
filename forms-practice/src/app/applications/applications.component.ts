@@ -8,25 +8,37 @@ import { StorageService } from '../shared-data/storage.service';
   templateUrl: './applications.component.html',
   styleUrl: './applications.component.css',
 })
-export class ApplicationsComponent implements OnInit, OnDestroy {
+export class ApplicationsComponent implements OnInit {
   applications: Employee[] = [];
   subscription!: Subscription;
 
-  constructor(private dataService: StorageService) {}
+  constructor(private storageService: StorageService) {}
 
   ngOnInit(): void {
-    this.subscription = this.dataService.employeesChanged.subscribe(
-      (applications: Employee[]) => {
-        this.applications = applications;
-        console.log(applications);
-        console.log('smth');
-      }
-    );
-
-    this.applications = this.dataService.getEmployees();
+    this.onFetchEmployees();
   }
 
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+  onFetchEmployees() {
+    // not deprecated
+    this.storageService.fetchEmployees().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.applications = res;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+
+    // deprecated
+    // this.storageService.fetchEmployees().subscribe(
+    //   (resData) => {
+    //     this.applications = resData;
+    //     console.log(resData);
+    //   },
+    //   (error) => {
+    //     console.log(error);
+    //   }
+    // );
   }
 }

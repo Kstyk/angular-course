@@ -1,1 +1,16 @@
-<p>applications works!</p>
+<div class="w-full flex flex-row flex-wrap space-x-5 space-y-5 justify-center">
+  <div
+    *ngFor="let application of applications"
+    class="card w-96 bg-base-100 shadow-xl"
+  >
+    <div class="card-body">
+      <h2 class="card-title">
+        {{ application.username }}
+      </h2>
+      <div class="card-actions justify-end">
+        <div class="badge badge-outline">{{ application.role }}</div>
+        <div class="badge badge-outline">{{ application.advanced }}</div>
+      </div>
+    </div>
+  </div>
+</div>
