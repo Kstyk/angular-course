@@ -16,8 +16,7 @@ export class AppComponent {
     email: '',
     secretQuestion: '',
     answer: '',
-    gender: '',
-  };
+777+  };
   submitted = false;
 
   suggestUserName() {
