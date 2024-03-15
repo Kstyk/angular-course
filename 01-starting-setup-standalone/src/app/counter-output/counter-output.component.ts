@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { AsyncPipe } from '@angular/common';
+import { selectCount, selectDoubleCount } from '../store/counter.selectors';
 
 @Component({
   selector: 'app-counter-output',
@@ -12,8 +13,10 @@ import { AsyncPipe } from '@angular/common';
 })
 export class CounterOutputComponent {
   count$: Observable<number>;
+  doubleCount$: Observable<number>;
 
   constructor(private store: Store<{ counter: number }>) {
-    this.count$ = store.select('counter'); // will update whenever the data in store will change, cuz of observale
+    this.count$ = store.select(selectCount); // will update whenever the data in store will change, cuz of observale
+    this.doubleCount$ = store.select(selectDoubleCount);
   }
 }
