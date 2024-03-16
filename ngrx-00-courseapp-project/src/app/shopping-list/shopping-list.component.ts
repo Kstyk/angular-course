@@ -7,6 +7,7 @@ import { LoggingService } from '../logging.service';
 import { Store } from '@ngrx/store';
 import { selectShoppingList } from './store/shopping-list.selectors';
 import { shoppingListStateType } from './store/shopping-list.reducer';
+import { startEdit } from './store/shopping-list.actions';
 
 @Component({
   selector: 'app-shopping-list',
@@ -35,7 +36,9 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   }
 
   onEditItem(index: number) {
-    this.slService.startedEditing.next(index);
+    // this.slService.startedEditing.next(index);
+
+    this.store.dispatch(startEdit({ index: index }));
   }
 
   ngOnDestroy() {
