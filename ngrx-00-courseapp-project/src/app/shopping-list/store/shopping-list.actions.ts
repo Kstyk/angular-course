@@ -20,13 +20,10 @@ export const addIngredients = createAction(
 
 export const updateIngredient = createAction(
   UPDATE_INGREDIENT,
-  props<{ value: { index: number; ingredient: Ingredient } }>()
+  props<{ value: Ingredient }>()
 );
 
-export const deleteIngredient = createAction(
-  DELETE_INGREDIENT,
-  props<{ value: number }>()
-);
+export const deleteIngredient = createAction(DELETE_INGREDIENT);
 
 export const startEdit = createAction(START_EDIT, props<{ index: number }>());
 export const stopEdit = createAction(STOP_EDIT);

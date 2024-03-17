@@ -30,26 +30,30 @@ export const shoppingListReducer = createReducer(
     return { ...state, ingredients: [...state.ingredients, ...action.value] };
   }),
   on(updateIngredient, (state, action) => {
-    const ingredient = state.ingredients[action.value.index];
+    const ingredient = state.ingredients[state.editedIngredientIndex];
     const updatedIngredient = {
       ...ingredient,
-      ...action.value.ingredient,
+      ...action.value,
     };
 
     const updatedIngredients = [...state.ingredients];
-    updatedIngredients[action.value.index] = updatedIngredient;
+    updatedIngredients[state.editedIngredientIndex] = updatedIngredient;
 
     return {
       ...state,
       ingredients: updatedIngredients,
+      editedIngredientIndex: -1,
+      editedIngredient: null,
     };
   }),
   on(deleteIngredient, (state, action) => {
     return {
       ...state,
       ingredients: state.ingredients.filter((e, index) => {
-        return index !== action.value;
+        return index !== state.editedIngredientIndex;
       }),
+      editedIngredientIndex: -1,
+      editedIngredient: null,
     };
   }),
   on(startEdit, (state, action) => {
