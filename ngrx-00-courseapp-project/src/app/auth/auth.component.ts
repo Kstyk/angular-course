@@ -14,7 +14,7 @@ import { AlertComponent } from '../shared/alert/alert.component';
 import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 import { Store } from '@ngrx/store';
 import { AppStateType } from '../store/app.reducer';
-import { loginStart } from './store/auth.actions';
+import { loginStart, signupStart } from './store/auth.actions';
 import { selectAuth } from './store/auth.selectors';
 
 @Component({
@@ -58,7 +58,9 @@ export class AuthComponent implements OnInit, OnDestroy {
         loginStart({ payload: { email: email, password: password } })
       );
     } else {
-      authObs = this.authService.signup(email, password);
+      this.store.dispatch(
+        signupStart({ payload: { email: email, password: password } })
+      );
     }
 
     // authObs.subscribe(

@@ -1,12 +1,14 @@
 import { createAction, props } from '@ngrx/store';
 
 export const LOGIN_START = '[Auth] Login Start';
-export const LOGIN = '[Auth] Login';
-export const LOGIN_FAIL = '[Auth] Login Fail';
+export const AUTHENTICATE_SUCCESS = '[Auth] Login';
+export const AUTHENTICATE_FAIL = '[Auth] Login Fail';
 export const LOGOUT = '[Auth] Logout';
 
-export const login = createAction(
-  LOGIN,
+export const SIGNUP_START = '[Auth] Signup Start';
+
+export const authenticateSuccess = createAction(
+  AUTHENTICATE_SUCCESS,
   props<{
     payload: {
       email: string;
@@ -19,9 +21,17 @@ export const login = createAction(
 
 export const logout = createAction(LOGOUT);
 
-export const loginFail = createAction(LOGIN_FAIL, props<{ payload: string }>());
+export const authenticateFail = createAction(
+  AUTHENTICATE_FAIL,
+  props<{ payload: string }>()
+);
 
 export const loginStart = createAction(
   LOGIN_START,
+  props<{ payload: { email: string; password: string } }>()
+);
+
+export const signupStart = createAction(
+  SIGNUP_START,
   props<{ payload: { email: string; password: string } }>()
 );

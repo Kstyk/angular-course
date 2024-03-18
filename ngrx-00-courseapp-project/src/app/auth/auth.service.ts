@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 import { User } from './user.model';
 import { Store } from '@ngrx/store';
 import { AppStateType } from '../store/app.reducer';
-import { login, logout } from './store/auth.actions';
+import { authenticateSuccess, logout } from './store/auth.actions';
 
 export interface AuthResponseData {
   kind: string;
@@ -100,7 +100,7 @@ export class AuthService {
     if (loadedUser.token) {
       // this.user.next(loadedUser);
       this.store.dispatch(
-        login({
+        authenticateSuccess({
           payload: {
             email: loadedUser.email,
             userId: loadedUser.id,
@@ -144,7 +144,7 @@ export class AuthService {
     // this.user.next(user);
     const user = new User(email, userId, token, expirationDate);
     this.store.dispatch(
-      login({
+      authenticateSuccess({
         payload: {
           email: email,
           token: token,
