@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LOGIN_START, login } from './auth.actions';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { LOGIN_START, login, loginFail } from './auth.actions';
+import { catchError, map, of, switchMap, tap, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 export interface AuthResponseData {
   kind: string;
@@ -49,7 +50,22 @@ export class AuthEffects {
                 });
               }),
               catchError((errorRes) => {
-                return of();
+                let errorMessage = 'An unknown error occurred!';
+                if (!errorRes.error || !errorRes.error.error) {
+                  return of(loginFail({ payload: errorMessage }));
+                }
+                switch (errorRes.error.error.message) {
+                  case 'EMAIL_EXISTS':
+                    errorMessage = 'This email exists already';
+                    break;
+                  case 'EMAIL_NOT_FOUND':
+                    errorMessage = 'This email does not exist.';
+                    break;
+                  case 'INVALID_PASSWORD':
+                    errorMessage = 'This password is not correct.';
+                    break;
+                }
+                return of(loginFail({ payload: errorMessage }));
               })
             );
         }
@@ -57,5 +73,20 @@ export class AuthEffects {
     )
   );
 
-  constructor(private actions$: Actions, private http: HttpClient) {}
+  authSuccess = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(login),
+        tap(() => {
+          this.router.navigate(['/']);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  constructor(
+    private actions$: Actions,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 }

@@ -1,13 +1,17 @@
 import { createReducer, on } from '@ngrx/store';
 import { User } from '../user.model';
-import { login, logout } from './auth.actions';
+import { login, loginFail, loginStart, logout } from './auth.actions';
 
 export type authStateType = {
   user: User;
+  authError: string;
+  loading: boolean;
 };
 
 const initialState = {
   user: null,
+  authError: null,
+  loading: false,
 };
 
 export const authReducer = createReducer(
@@ -22,10 +26,18 @@ export const authReducer = createReducer(
 
     return {
       ...state,
+      authError: null,
       user: user,
+      loading: false,
     };
   }),
   on(logout, (state) => {
     return { ...state, user: null };
+  }),
+  on(loginStart, (state) => {
+    return { ...state, authError: null, loading: true };
+  }),
+  on(loginFail, (state, action) => {
+    return { ...state, authError: action.payload, user: null, loading: false };
   })
 );
