@@ -3,8 +3,10 @@ import { User } from '../user.model';
 import {
   authenticateFail,
   authenticateSuccess,
+  clearError,
   loginStart,
   logout,
+  signupStart,
 } from './auth.actions';
 
 export type authStateType = {
@@ -42,7 +44,13 @@ export const authReducer = createReducer(
   on(loginStart, (state) => {
     return { ...state, authError: null, loading: true };
   }),
+  on(signupStart, (state) => {
+    return { ...state, authError: null, loading: true };
+  }),
   on(authenticateFail, (state, action) => {
     return { ...state, authError: action.payload, user: null, loading: false };
+  }),
+  on(clearError, (state) => {
+    return { ...state, authError: null };
   })
 );
