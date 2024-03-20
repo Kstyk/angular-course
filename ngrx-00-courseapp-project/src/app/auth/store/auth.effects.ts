@@ -40,6 +40,7 @@ const handleAuthentication = (
       userId: userId,
       token: token,
       expirationDate: expirationDate,
+      redirect: true,
     },
   });
 };
@@ -65,6 +66,12 @@ const handleError = (errorRes: any) => {
 
 @Injectable()
 export class AuthEffects {
+  constructor(
+    private actions$: Actions,
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
   authSignup = createEffect(() =>
     this.actions$.pipe(
       ofType(signupStart),
@@ -146,8 +153,11 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(authenticateSuccess, logout),
-        tap(() => {
-          this.router.navigate(['/']);
+        ofType(authenticateSuccess),
+        tap((authSuccessAction) => {
+          if (authSuccessAction.payload.redirect) {
+            this.router.navigate(['/']);
+          }
         })
       ),
     { dispatch: false }
@@ -186,6 +196,7 @@ export class AuthEffects {
               userId: loadedUser.id,
               token: loadedUser.token,
               expirationDate: new Date(userData._tokenExpirationDate),
+              redirect: false,
             },
           });
         }
@@ -207,11 +218,4 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private http: HttpClient,
-    private router: Router,
-    private authService: AuthService
-  ) {}
 }
