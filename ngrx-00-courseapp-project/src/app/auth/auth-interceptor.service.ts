@@ -14,10 +14,7 @@ import { selectAuth } from './store/auth.selectors';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor(
-    private authService: AuthService,
-    private store: Store<AppStateType>
-  ) {}
+  constructor(private store: Store<AppStateType>) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return this.store.select(selectAuth).pipe(
